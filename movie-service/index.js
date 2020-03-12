@@ -12,7 +12,7 @@ app.use(express.json())
 
 const url = 'mongodb://localhost:27017'
 const dbName = 'movie-service'
-const client = new MongoClient(url)
+const client = new MongoClient(url, { useUnifiedTopology: true })
 
 client.connect(function(err) {
   assert.equal(null, err)
