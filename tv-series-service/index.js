@@ -4,14 +4,14 @@ const cors = require('cors')
 const MongoClient = require('mongodb').MongoClient
 const routes = require('./routes')
 const app = express()
-const port = 3000
+const port = 3001
 
 app.use(cors())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 const url = 'mongodb://localhost:27017'
-const dbName = 'tv-series-service'
+const dbName = 'movie-service'
 const client = new MongoClient(url, { useUnifiedTopology: true })
 
 client.connect(function(err) {

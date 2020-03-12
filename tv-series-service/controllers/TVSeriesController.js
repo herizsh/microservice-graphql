@@ -2,7 +2,7 @@ const ObjectId = require('mongodb').ObjectId
 
 class MovieController {
   static findAll(req, res, next) {
-    const collection = req.db.collection('movies')
+    const collection = req.db.collection('tvseries')
     collection
       .find({})
       .toArray()
@@ -13,7 +13,7 @@ class MovieController {
   }
   static create(req, res, next) {
     const { title, overview, poster_path, popularity, tags } = req.body
-    const collection = req.db.collection('movies')
+    const collection = req.db.collection('tvseries')
 
     const data = {
       title,
@@ -32,7 +32,7 @@ class MovieController {
 
   static update(req, res, next) {
     const { title, overview, poster_path, popularity, tags } = req.body
-    const collection = req.db.collection('movies')
+    const collection = req.db.collection('tvseries')
 
     const query = {
       _id: ObjectId(req.params.id)
@@ -50,7 +50,7 @@ class MovieController {
   }
 
   static delete(req, res, next) {
-    const collection = req.db.collection('movies')
+    const collection = req.db.collection('tvseries')
 
     const query = {
       _id: ObjectId(req.params.id)
