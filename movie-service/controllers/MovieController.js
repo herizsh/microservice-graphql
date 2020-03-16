@@ -11,6 +11,17 @@ class MovieController {
       })
       .catch(next)
   }
+  static findOne(req, res, next) {
+    const id = req.params.id
+    const collection = req.db.collection('movies')
+    collection
+      .findOne({ _id: ObjectId(id) })
+      .then(movie => {
+        res.status(200).json({ movie })
+      })
+      .catch(next)
+  }
+
   static create(req, res, next) {
     const { title, overview, poster_path, popularity, tags } = req.body
     const collection = req.db.collection('movies')
@@ -23,7 +34,7 @@ class MovieController {
       tags
     }
     collection
-      .insertOne({ data })
+      .insertOne(data)
       .then(result => {
         res.status(201).json({ movie: result.ops })
       })
@@ -39,12 +50,12 @@ class MovieController {
     }
 
     const newValues = {
-      $set: { data: { title, overview, poster_path, popularity, tags } }
+      $set: { title, overview, poster_path, popularity, tags }
     }
     collection
-      .updateOne(query, newValues)
+      .findOneAndUpdate(query, newValues, { returnOriginal: false })
       .then(result => {
-        res.status(200).json(result)
+        res.status(200).json({ movie: result.value })
       })
       .catch(next)
   }
@@ -57,8 +68,13 @@ class MovieController {
     }
     collection
       .deleteOne(query)
-      .then(result => {
-        res.status(200).json(result)
+      .then(_ => {
+        const data = {
+          _id: req.params.id,
+          msg: 'Movie deleted!',
+          status: 200
+        }
+        res.status(200).json(data)
       })
       .catch(next)
   }
